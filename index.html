@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinical Inquiry Pathway Tool</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #eaf4ff, #f7fbff);
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .hero h1 {
+      color: #003A8F;
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 760px;
+      margin: auto;
+      line-height: 1.5;
+    }
+
+    .pathway {
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    .prompt {
+      font-size: 26px;
+      font-weight: bold;
+      color: #003A8F;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      border: 2px solid #d9e6f7;
+      border-radius: 20px;
+      padding: 24px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left;
+      min-height: 230px;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #0072CE;
+      box-shadow: 0 10px 22px rgba(0,114,206,0.18);
+    }
+
+    .icon {
+      font-size: 46px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      color: #003A8F;
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .card p {
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .ifthen {
+      background: #f1f7ff;
+      border-left: 6px solid #0072CE;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 15px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .result {
+      text-align: center;
+      padding: 25px;
+    }
+
+    .result h2 {
+      font-size: 34px;
+      color: #003A8F;
+    }
+
+    .result p {
+      font-size: 19px;
+      line-height: 1.5;
+      max-width: 760px;
+      margin: 12px auto;
+    }
+
+    .nextsteps {
+      margin-top: 25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .step {
+      background: #f8fbff;
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid #d9e6f7;
+    }
+
+    .button {
+      margin-top: 25px;
+      padding: 14px 24px;
+      font-size: 17px;
+      border: none;
+      border-radius: 12px;
+      background: #0072CE;
+      color: white;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: #005bb5;
+    }
+
+    .small-note {
+      margin-top: 25px;
+      font-size: 15px;
+      color: #5b677a;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>Where Does Your Clinical Inquiry Idea Fit?</h1>
+      <p>
+        Have an idea, question, frustration, or “there has to be a better way” moment?
+        Use this quick guide to explore whether it may be Quality Improvement,
+        Evidence-Based Practice, or Clinical Research.
+      </p>
+    </div>
+
+    <div class="pathway">
+      <div id="content"></div>
+    </div>
+
+    <div class="small-note">
+      This tool is a starting point, not a final determination. The Clinical Inquiry QI Tri-Chair team can help you think it through.
+    </div>
+  </div>
+
+<script>
+const content = document.getElementById("content");
+
+function start() {
+  content.innerHTML = `
+    <div class="prompt">Start here: Which statement sounds most like your idea?</div>
+
+    <div class="cards">
+
+      <div class="card" onclick="showQI()">
+        <div class="icon">🛠️</div>
+        <h3>Something is not working well</h3>
+        <p>
+          You see a workflow issue, delay, safety concern, communication gap,
+          or repeated frustration in your area.
+        </p>
+        <div class="ifthen">
+          If this is about improving a local process, then it may be Quality Improvement.
+        </div>
+      </div>
+
+      <div class="card" onclick="showEBP()">
+        <div class="icon">📚</div>
+        <h3>We need to know the best practice</h3>
+        <p>
+          You are wondering what the evidence says, whether current practice matches
+          best practice, or how to bring evidence to the bedside.
+        </p>
+        <div class="ifthen">
+          If this is about applying existing evidence, then it may be Evidence-Based Practice.
+        </div>
+      </div>
+
+      <div class="card" onclick="showResearch()">
+        <div class="icon">🔬</div>
+        <h3>We want to answer a new question</h3>
+        <p>
+          You want to study something, test a hypothesis, collect data, and create
+          knowledge that may apply beyond your unit or organization.
+        </p>
+        <div class="ifthen">
+          If this is about generating new knowledge, then it may be Clinical Research.
+        </div>
+      </div>
+
+      <div class="card" onclick="showUnsure()">
+        <div class="icon">💡</div>
+        <h3>I am not sure yet</h3>
+        <p>
+          You have an idea, concern, question, or curiosity, but you are not sure
+          what category it fits into.
+        </p>
+        <div class="ifthen">
+          If you are unsure, then you are exactly where inquiry begins.
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+function showQI() {
+  content.innerHTML = `
+    <div class="result">
+      <div class="icon">🛠️</div>
+      <h2>This sounds like Quality Improvement</h2>
+      <p>
+        Quality Improvement focuses on making care better in a specific setting.
+        It often starts with a local problem, a process that feels hard, or a pattern
+        staff notice over and over again.
+      </p>
+
+      <div class="nextsteps">
+        <div class="step">
+          <strong>If you are trying to reduce delays...</strong><br>
+          Then you may be improving a workflow.
+        </div>
+        <div class="step">
+          <strong>If you are testing a small change...</strong><br>
+          Then you may be doing a PDSA cycle.
+        </div>
+        <div class="step">
+          <strong>If success means “better here”...</strong><br>
+          Then QI may be the right fit.
+        </div>
+      </div>
+
+      <button class="button" onclick="start()">Start Over</button>
+    </div>
+  `;
+}
+
+function showEBP() {
+  content.innerHTML = `
+    <div class="result">
+      <div class="icon">📚</div>
+      <h2>This sounds like Evidence-Based Practice</h2>
+      <p>
+        Evidence-Based Practice focuses on using the best available evidence,
+        clinical expertise, and patient or family preferences to guide care.
+      </p>
+
+      <div class="nextsteps">
+        <div class="step">
+          <strong>If you are asking “What does the evidence say?”</strong><br>
+          Then this may be EBP.
+        </div>
+        <div class="step">
+          <strong>If you are comparing current practice to best practice...</strong><br>
+          Then this may be EBP.
+        </div>
+        <div class="step">
+          <strong>If the goal is to bring evidence into practice...</strong><br>
+          Then EBP may be the right fit.
+        </div>
+      </div>
+
+      <button class="button" onclick="start()">Start Over</button>
+    </div>
+  `;
+}
+
+function showResearch() {
+  content.innerHTML = `
+    <div class="result">
+      <div class="icon">🔬</div>
+      <h2>This sounds like Clinical Research</h2>
+      <p>
+        Clinical Research is designed to answer a question and generate new knowledge.
+        It often involves a formal study design, research question, data collection,
+        and review processes before beginning.
+      </p>
+
+      <div class="nextsteps">
+        <div class="step">
+          <strong>If you are testing a hypothesis...</strong><br>
+          Then this may be research.
+        </div>
+        <div class="step">
+          <strong>If the findings could apply beyond your area...</strong><br>
+          Then this may be research.
+        </div>
+        <div class="step">
+          <strong>If people are being studied systematically...</strong><br>
+          Then you may need research guidance before starting.
+        </div>
+      </div>
+
+      <button class="button" onclick="start()">Start Over</button>
+    </div>
+  `;
+}
+
+function showUnsure() {
+  content.innerHTML = `
+    <div class="result">
+      <div class="icon">💡</div>
+      <h2>You may be at the beginning of clinical inquiry</h2>
+      <p>
+        You do not need to know whether your idea is QI, EBP, or research before
+        asking for support. Many ideas begin as a concern, a question, or a pattern
+        noticed by frontline staff.
+      </p>
+
+      <div class="nextsteps">
+        <div class="step">
+          <strong>If something feels harder than it should...</strong><br>
+          Start by naming the pain point.
+        </div>
+        <div class="step">
+          <strong>If you wonder whether there is a better way...</strong><br>
+          Start by asking what is already known.
+        </div>
+        <div class="step">
+          <strong>If you have an idea but no plan yet...</strong><br>
+          That is enough to begin a conversation.
+        </div>
+      </div>
+
+      <button class="button" onclick="start()">Start Over</button>
+    </div>
+  `;
+}
+
+start();
+</script>
+
+</body>
+</html>
