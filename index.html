@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Clinical Inquiry Journey</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg,#eaf4ff,#ffffff);
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #003A8F;
+}
+
+.scene {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.option {
+  padding: 18px;
+  border-radius: 12px;
+  border: 2px solid #dbeafe;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: left;
+}
+
+.option:hover {
+  background: #f0f7ff;
+  border-color: #0072CE;
+  transform: scale(1.02);
+}
+
+.icon {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.result {
+  padding: 30px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #0072CE;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Clinical Inquiry Journey</h1>
+  <div id="app"></div>
+</div>
+
+<script>
+
+function scene1(){
+document.getElementById("app").innerHTML = `
+<div class="scene">
+<h2>🌅 Mid-shift… something catches your attention</h2>
+<p>Which one feels most familiar?</p>
+
+<div class="options">
+
+<div class="option" onclick="sceneQI()">
+<div class="icon">🧩</div>
+<strong>This keeps happening and slows us down</strong><br>
+Admissions, discharges, workflows… something feels inefficient.
+</div>
+
+<div class="option" onclick="sceneEBP()">
+<div class="icon">📚</div>
+<strong>I wonder if we are doing this the best way</strong><br>
+You question if practice aligns with evidence.
+</div>
+
+<div class="option" onclick="sceneResearch()">
+<div class="icon">🔬</div>
+<strong>No one really knows the answer to this</strong><br>
+You’re thinking about studying something deeper.
+</div>
+
+<div class="option" onclick="sceneUnsure()">
+<div class="icon">💡</div>
+<strong>Something feels off but I can’t explain it yet</strong>
+</div>
+
+</div>
+</div>
+`;
+}
+
+function sceneQI(){
+document.getElementById("app").innerHTML = `
+<div class="scene result">
+<h2>🛠️ This is Quality Improvement thinking</h2>
+
+<p>You are noticing a problem and thinking:
+“How do we fix this here, now?”</p>
+
+<p><strong>Why this fits:</strong><br>
+You are improving a process, not testing a theory.<br>
+You are focused on your unit, your workflow, your patients.</p>
+
+<p><strong>Next step:</strong><br>
+Start small. What is happening now? What would better look like?</p>
+
+<button onclick="scene1()">Try another path</button>
+</div>
+`;
+}
+
+function sceneEBP(){
+document.getElementById("app").innerHTML = `
+<div class="scene result">
+<h2>📚 This is Evidence-Based Practice thinking</h2>
+
+<p>You are asking:
+“What does the evidence say we should be doing?”</p>
+
+<p><strong>Why this fits:</strong><br>
+You are not creating new knowledge.<br>
+You are applying what is already known.</p>
+
+<p><strong>Next step:</strong><br>
+Start with a focused question and explore the literature.</p>
+
+<button onclick="scene1()">Try another path</button>
+</div>
+`;
+}
+
+function sceneResearch(){
+document.getElementById("app").innerHTML = `
+<div class="scene result">
+<h2>🔬 This is Clinical Research thinking</h2>
+
+<p>You are thinking:
+“We need to study this to truly understand it.”</p>
+
+<p><strong>Why this fits:</strong><br>
+You are generating new knowledge.<br>
+Your findings may extend beyond your hospital.</p>
+
+<p><strong>Next step:</strong><br>
+Connect with research support before starting.</p>
+
+<button onclick="scene1()">Try another path</button>
+</div>
+`;
+}
+
+function sceneUnsure(){
+document.getElementById("app").innerHTML = `
+<div class="scene result">
+<h2>🌱 You are at the start of inquiry</h2>
+
+<p>This is where every idea begins.</p>
+
+<p><strong>Why this matters:</strong><br>
+You don’t need to categorize it yet.<br>
+You just need to name what you are noticing.</p>
+
+<p><strong>Next step:</strong><br>
+Talk it through. We will help you shape it.</p>
+
+<button onclick="scene1()">Try another path</button>
+</div>
+`;
+}
+
+scene1();
+
+</script>
+</body>
+</html>
